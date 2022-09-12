@@ -16,13 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from api import views
+from django.conf import settings
+from django.conf.urls.static import static
 from hotel.views import DishesView,DishDetailsView,MenuItemView,MenuDetailsView,SignupView,DishesViewsetView,DishModelViewsetView
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+# from rest_framework_simplejwt.views import (
+#     TokenObtainPairView,
+#     TokenRefreshView,
+# )
 
 
 routers=DefaultRouter()
@@ -37,8 +39,8 @@ urlpatterns = [
     path('api/v2/hotels/dishes',MenuItemView.as_view()),
     path('api/v2/hotels/dishes/<int:id>',MenuDetailsView.as_view()),
     path('api/v2/accounts/signup',SignupView.as_view()),
-    # path('api/v2/token',obtain_auth_token),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/v2/token',obtain_auth_token),
+    # path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-]+routers.urls
+] + routers.urls + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
