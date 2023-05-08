@@ -117,9 +117,13 @@ class SignupView(APIView):
             serializer.save()
             return Response(data=serializer.data)
            # User.objects.create_user(**serializer.validated_data)
-
         else:
             return Response(data=serializer.errors)
+        
+    def get(self,request,*args,**kwargs):
+        all_users = User.objects.all()
+        serializer=self.serializer_class(all_users,many=True)
+        return Response(data=serializer.data)
 
 class DishesViewsetView(viewsets.ViewSet):
     serializer_class=DishesModelSerializer
